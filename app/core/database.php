@@ -1,39 +1,75 @@
-// Database.php
 <?php
 
-class Database {
-    private $config;
+class Database{
+	private $host = DB_HOST;
+	private $user = DB_USER;
+	private $pass = DB_PASS;
+	private $dbnm = DB_NAME;
 
-    public function __construct() {
-        date_default_timezone_set("Asia/Jakarta");
-        error_reporting(0);
+	private $dbh;
+	private $stmt;
 
-        // Sesuaikan dengan server Anda
-        $host   = 'localhost'; // host server
-        $user   = 'root';      // username server
-        $pass   = '';          // password server, kalau pakai xampp kosongin saja
-        $dbname = 'kantin4';   // nama database Anda
+	public function __construct()
+	{
+		$dsn = 'mysql:host='. $this->host .';dbname='. $this->dbnm;
+		$option = [
+			PDO::ATTR_PERSISTENT => true,
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+		];
 
-        try {
-            $this->config = new PDO("mysql:host=$host;dbname=$dbname;", $user, $pass);
-        } catch (PDOException $e) {
-            echo 'KONEKSI GAGAL' . $e->getMessage();
-        }
+		try{
+			$this->dbh = new PDO($dsn,$this->user,$this->pass, $option);
+		}catch(PDOException $e){
+			die($e->getMessage());
+		}
+	}
 
-        // Memuat base URL dari config.php
-        include_once '../config/config.php';
-        $this->config->base_url = $base_url;
-    }
 
-    public function getConfig() {
-        return $this->config;
-    }
+	public function query($query)
+	{
+		$this->stmt = $this->dbh->prepare($query);
+	}
 
-    public function getModelPath() {
-        return 'fungsi/model/model.php';
-    }
+	public function bind($param, $value, $type = null){
+		if(is_null($type)){
+			switch (true) {
+				case is_int($value):
+					$type = PDO::PARAM_INT;
+					break;
+				case is_bool($value):
+					$type = PDO::PARAM_BOOL;
+					break;
+				case is_null($value):
+					$type = PDO::PARAM_NULL;
+					break;
+				default:
+					$type = PDO::PARAM_STR;
+			}
+		}
+
+		$this->stmt->bindValue($param, $value, $type);
+	}
+
+	public function execute()
+	{
+		$this->stmt->execute();
+	}
+
+	public function resultSet()
+	{
+		$this->execute();
+		return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function single()
+	{
+		$this->execute();
+		return $this->stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public function rowCount()
+	{
+		return $this->stmt->rowCount();
+	}
 }
 
-$database = new Database();
-$config = $database->getConfig();
-$model = $database->getModelPath();
