@@ -1,0 +1,30 @@
+/*HEADER*/
+.navbar-custom-menu > .navbar-nav > li {
+    position: static; /* You can omit this line if you don't need to change the position */
+    float: left;
+    display: block;
+    box-sizing: border-box;
+}
+
+.nav {
+    list-style: none;
+}
+body {
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+}
+.header-black-bg.top-menu.top-menu .left-aligned-image {
+    width: 50px;
+    height: auto;
+}
+
+
+
+/*HEADER*/
+
+/*SIDEBAR*/
+
+/*SIDEBAR*/
+
+/*FOOTER*/
