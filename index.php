@@ -9,17 +9,17 @@
 		$lihat = new model($config);
 		$toko = $lihat -> toko();
 		//  admin
-			include 'admin/template/header.php';
-			include 'admin/template/sidebar.php';
+			include 'app/view/template/header.php';
+			include 'app/view/template/sidebar.php';
 				if(!empty($_GET['page'])){
-					include 'admin/module/'.$_GET['page'].'/index.php';
+					include 'app/view/'.$_GET['page'].'/index.php';
 				}else{
-					include 'admin/template/home.php';
+					include 'app/view/template/home.php';
 				}
-			include 'admin/template/footer.php';
+			include 'app/view/template/footer.php';
 		// end admin
 	}else{
-		echo '<script>window.location="login.php";</script>';
+		echo '<script>window.location="app/controllers/login.php";</script>';
 	}
 ?>
 

@@ -2,7 +2,7 @@
 
 class Flasher{
 
-    public static function setMessage($pesan, $aksi, $type)
+    public static function setMessage($pesan, $aksi, $type = 'success')
     {
 
         $_SESSION['msg'] = [

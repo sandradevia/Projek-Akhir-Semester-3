@@ -7,4 +7,7 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'kantin4');
 
+define('APP_NAME', 'Kantinku');
+define('TIMEZONE', 'Asia/Jakarta');
+
 ?>
